@@ -1,0 +1,137 @@
+\documentclass{../guide}
+
+\newcounter{stepcounter}
+
+\newcommand{\newstep}[1]{\stepcounter{stepcounter}\section{Step \thestepcounter : #1}}
+
+\title{Le guide de l'installeur galactique}
+\author{Benoît Legat}
+
+\begin{document}
+
+\maketitle
+
+\section{Prise d'informations}
+\subsection{L'architecture}
+\begin{itemize}
+  \item ARM ou x86 ? Sûrement x86.
+  \item 64-bits ou 32-bit ? 64-bit s'il est récent mais autant s'en assurer.
+\end{itemize}
+
+Comment savoir
+\subsubsection{Sur Windows}
+\paragraph{Windows XP}
+\todo[inline]{TODO}
+\paragraph{Windows 7}
+\todo[inline]{TODO}
+\paragraph{Windows 8.1}
+\todo[inline]{TODO}
+\paragraph{Windows 10}
+\todo[inline]{TODO}
+\subsubsection{Sous MAC}
+\todo[inline]{TODO}
+\subsubsection{Sur Linux}
+Comment le savoir ? \verb|i386| veut dire 32-bit et \verb|x86_64| veut dire 64-bit.
+\begin{minted}{bash}
+$ uname -a
+\end{minted}
+
+\subsection{Méthode de partitionnement}
+GPT ou MBR.
+
+Comment savoir \todo{TODO}
+As a rule of thumb, si c'est Windows 8 ou plus c'est GPT.
+
+\subsection{Repartitionnement}
+Quels est la taille de la partition et les partitions présentes ?
+\subsubsection{Sous Windows}
+Aller dans le ``Gestionnaire de Disques''.
+\subsubsection{Sous MAC}
+\todo[inline]{TODO}
+\subsubsection{Sous Linux}
+GParted ou plus rapide:
+\begin{minted}{bash}
+$ lsblk
+\end{minted}
+
+\section{Choix à faire avec le client}
+
+\subsection{Quelle distribution ?}
+Demander au client de choisir dans le menu.
+
+\subsection{Quel place est-ce que le client veut donner ?}
+Pour Linux, la taille de \verb|/|: minimum \SI{20}{GB} mais c'est short, \SI{32}{GB} c'est mieux, \SI{42}{GB} pour être tranquille.
+
+Faire une SWAP entre \SI{2}{GB} et \SI{4}{\giga B}.
+
+\subsection{Faire une partition home séparée ou pas ?}
+Il y a deux cas de figures possibles:
+\begin{enumerate}
+  \item SWAP et \verb|/|
+  \item SWAP, \verb|/home| et \verb|/|
+\end{enumerate}
+
+L'avantage de la deuxième c'est que si l'OS crash ou si il le client veut installer une autre distro ou une fresh install au lieu d'une update, en faisant l'install en demandant de ne pas reformatter la partition \verb|/home|, il n'y a que l'OS et les applications qui sont overwritten et les données restes inchangées.
+
+Le désavantage de la deuxième c'est qu'il faut choisir la taille du \verb|/home| et \verb|/| maintenant et s'y tenir.
+Seulement, la taille de \verb|/| n'est pas vraiment variable, on met souvent \SI{42}{GB} à \verb|/| et le reste à \verb|/home|.
+
+\newstep{Défragmenter}
+Idéalement ça doit déjà avoir été fait normalement...
+C'est optionnel mais ça permet de plus diminuer la taille de Windows en Step 3.
+
+\newstep{Désactiver le Fast Boot}
+Ne pas confondre avec la désactivation du Fast Boot depuis le BIOS !
+
+Choisir les options d'alimentation/Power Option...
+
+\newstep{Diminuer la taille de Windows}
+En MBR, s'il y a déjà 4 partitions il va falloir en supprimer une..
+Il faut redimensionner Windows \emph{depuis Windows}.
+C'est normal qu'il prenne du temps à calculer l'espace qu'il autorise à réduire et c'est normal que ce soit moins que l'espace libre.
+
+\newstep{Rebooter dans l'UEFI}
+
+\newstep{Chipoter dans l'UEFI}
+\begin{itemize}
+  \item Disable Secure Boot.
+  \item Disable Fast Boot.
+  \item Enable CSM.
+\end{itemize}
+Mettre l'USB en priorité dans l'ordre de Boot.
+Si l'USB n'est pas proposer, essayer de rebooter après avoir désactivé le Secure Boot.
+
+Il se peut qu'il faille créer la Boot Entry soi-même (e.g. ASUS),
+pour cela, il faut le faire pointer vers \verb|/boot/BOOTx86_64.efi|.
+
+\newstep{Rebooter}
+Maintenant, on reboot et ça devrait booter sur la clef (si ça ne marche pas, vous être autorisé à pleurer).
+
+Choisir ``Try ...'' pour avoir GParted.
+
+\newstep{Créer les partitions}
+Créer les partitions comme choisit au préalable avec le client.
+
+\newstep{Se connecter}
+Wifi c'est bien, Ethernet, c'est mieux !
+Brancher aussi le PC, si ce n'est pas encore fait.
+
+\newstep{Lancer l'installation}
+Double cliquer sur les partitions ext4 créées pour qu'elles soient utiliser.
+Ne pas reformater la partition \verb|/home| s'il y a des données (e.g. reinstall).
+
+\newstep{Rebooter}
+Checkez si Windows marche.
+Checkez si Linux marche:
+\begin{itemize}
+  \item Wifi
+  \item Son
+  \item Luminosité
+  \item ...
+\end{itemize}
+Démarrez ``Additionnal drivers'' pour installer des drivers supplémentaires (e.g. wifi, carte graphique).
+
+\subsection{Drivers graphiques}
+\todo[inline]{Copier coller du drive}
+
+\end{document}

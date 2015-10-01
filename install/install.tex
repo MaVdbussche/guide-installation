@@ -21,15 +21,15 @@
 Comment savoir
 \subsubsection{Sur Windows}
 \paragraph{Windows XP}
-\todo[inline]{TODO}
-\paragraph{Windows 7}
-\todo[inline]{TODO}
+\todo[inline] Clique-droit sur ``My computer'' -> ``Properties''. Dans la catégorie ``System'', si il est écrit ``x64 edition'', c'est la version 64 bit, si vous ne voyez pas ``64'' quelque part, ça veut dire que c'est du 32bits.
+\paragraph{Windows Vista/7}
+\todo[inline] Même chose que Windows XP, mais il sera explicitement écrit ``32-bit operating system'' ou ``64-bit operating system''.
 \paragraph{Windows 8.1}
 \todo[inline]{TODO}
 \paragraph{Windows 10}
 \todo[inline]{TODO}
 \subsubsection{Sous MAC}
-\todo[inline]{TODO}
+\todo[inline] Ils sont tous 64 bits depuis 2008… Si vous voyez un tout veil ordi, regardez le type de processeur (Cliquer sur la pomme en haut à gauche -> ``About this mac'', si le processeur est un ``Intel Core Solo'' ou ``Intel Core Duo'', c'est du 32-bit.
 \subsubsection{Sur Linux}
 Comment le savoir ? \verb|i386| veut dire 32-bit et \verb|x86_64| veut dire 64-bit.
 \begin{minted}{bash}
@@ -46,6 +46,10 @@ As a rule of thumb, si c'est Windows 8 ou plus c'est GPT.
 Quels est la taille de la partition et les partitions présentes ?
 \subsubsection{Sous Windows}
 Aller dans le ``Gestionnaire de Disques''.
+\paragraph{Windows 7 ou moins}
+Clique droit sur ``My computer'' -> ``Manage''.
+\paragraph{Windows 8 ou plus}
+Clique droit sur menu démarrer -> ``Gestionnaire de disque''.
 \subsubsection{Sous MAC}
 \todo[inline]{TODO}
 \subsubsection{Sous Linux}
@@ -57,7 +61,8 @@ $ lsblk
 \section{Choix à faire avec le client}
 
 \subsection{Quelle distribution ?}
-Demander au client de choisir dans le menu.
+%Demander au client de choisir dans le menu.
+Si ils demandent, ce qu'ils veulent (tant qu'on a l'ISO…), mais par défaut, Ubuntu. Pas besoin de leur faire peur inutilement !
 
 \subsection{Quel place est-ce que le client veut donner ?}
 Pour Linux, la taille de \verb|/|: minimum \SI{20}{GB} mais c'est short, \SI{32}{GB} c'est mieux, \SI{42}{GB} pour être tranquille.
@@ -91,15 +96,16 @@ Il faut redimensionner Windows \emph{depuis Windows}.
 C'est normal qu'il prenne du temps à calculer l'espace qu'il autorise à réduire et c'est normal que ce soit moins que l'espace libre.
 
 \newstep{Rebooter dans l'UEFI}
+Appuyer sur control-alt-shift quand vous cliquez sur le bouton ``Redémarrer''.
 
 \newstep{Chipoter dans l'UEFI}
 \begin{itemize}
   \item Disable Secure Boot.
   \item Disable Fast Boot.
-  \item Enable CSM.
+  \item Enable CSM. (C'est pour que l'UEFI apparaisse comme un BIOS)
 \end{itemize}
 Mettre l'USB en priorité dans l'ordre de Boot.
-Si l'USB n'est pas proposer, essayer de rebooter après avoir désactivé le Secure Boot.
+Si l'USB n'est pas proposé, essayer de rebooter après avoir désactivé le Secure Boot.
 
 Il se peut qu'il faille créer la Boot Entry soi-même (e.g. ASUS),
 pour cela, il faut le faire pointer vers \verb|/boot/BOOTx86_64.efi|.
@@ -107,17 +113,17 @@ pour cela, il faut le faire pointer vers \verb|/boot/BOOTx86_64.efi|.
 \newstep{Rebooter}
 Maintenant, on reboot et ça devrait booter sur la clef (si ça ne marche pas, vous être autorisé à pleurer).
 
-Choisir ``Try ...'' pour avoir GParted.
+Choisir ``Try ...'' au lieu de ``Installer directemen't' pour avoir GParted.
 
 \newstep{Créer les partitions}
-Créer les partitions comme choisit au préalable avec le client.
+Créer les partitions comme choisi au préalable avec le client.
 
 \newstep{Se connecter}
 Wifi c'est bien, Ethernet, c'est mieux !
 Brancher aussi le PC, si ce n'est pas encore fait.
 
 \newstep{Lancer l'installation}
-Double cliquer sur les partitions ext4 créées pour qu'elles soient utiliser.
+Double cliquer sur les partitions ext4 créées pour qu'elles soient utilisées.
 Ne pas reformater la partition \verb|/home| s'il y a des données (e.g. reinstall).
 
 \newstep{Rebooter}

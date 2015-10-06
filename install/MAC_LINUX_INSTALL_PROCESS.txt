@@ -1,0 +1,53 @@
+﻿Procédure d'installation Linux pour Mac avec Processeur Intel et mono disque dur : 
+
+-Libérer autant d'espace disque que néccessaire avec le gestionnaire de disque Apple et le mettre en "Espace libre" ou "Free Space"
+
+-Telecharger l'EFI pour pouvoir choisir l'OS au démarrage sans l'installer:
+	*Pour les versions antérieurs à Yosemite : 
+	 -http://refit.sourceforge.net/
+
+	*Pour les version supérieurs ou égale à Yosémite: 
+	 -Télécharger rEFInd : http://sourceforge.net/projects/refind/
+
+-Lancer un live USB avec une distribution Linux :
+	-appuyer sur ALT lorsque l'écran s'allume pour choisir la clé bootable
+
+-Lancer l'utilitaire "GParted"
+-Utiliser GParted pour créer avec l'espace libre : 
+	-une partition "EXT4" de minimum 15Gb pour mettre la distribution que l'on peut surnomée "linux"
+	-une partition "linux-swap" ou "swap" comme cache mémoire de 2Gb de préférence
+	-un espace libre d'au moins 10Mb
+
+-Lancer l'installation de linux (le type de clavier pour les macbooks est : French Macintosh)
+
+-Suivre la procédure habituel d'installation jusqu'au choix d'installation
+	-Choisir "Installation personnalisée" ou "Autre chose" (!!! surtout pas une autre option !!!)
+		*Choisir la partition "EXT4" que l'on a créer pour installer linux avec comme point de montage "/" et la formater de préférence
+		*Choisir comme "Boot Loader" la partion sur laquelle on utilise linux (en générale "/dev/sda4") et surtout pas la racine du disque dur comme sur une installation avec windows ("/dev/sda").
+		*Créer une partion de type BIOS ou BIOS-grub de minimum 1Mb
+	-Lancer l'installation
+	-Terminer l'installation de façon classique
+	-Retirer la clé USB
+
+-Redémarrer
+	*Lorsque l'écran s'allume, appuyer sur ALT pour afficher les différents partitions bootables, 
+		-->normalement, MacOS (Macintosh HD) et Linux sont présent.
+	*Tester d'abord Linux
+	*Tester ensuite que MacOS est toujours fonctionnel
+
+-Installer l'EFI pour pouvoir choisir l'OS au démarrage via OSX:
+	*Pour les versions antérieurs à Yosemite :
+	 -Installer rEFIt en double cliquant dessus
+	 -Redémarrer pour vérifié la présence de rEFIt
+
+	*Pour les version supérieurs ou égale à Yosémite: 
+	 -Décompresser le dossier rEFInd dans un répertoire
+	 -Avec la console, se rendre dans le dossier décompresser
+	 -Entrer la commande : "sudo ./install.sh --alldrivers"
+	 -Taper le mot de passe
+	 -Redémarrer pour vérifié la présence de rEFInd
+
+-Redémarrer
+-Vérifier que les choix sont possibles et qu'il fonctionne (l'EFI donne aussi accès aux partitions recovery)
+
+-Vérifier la connectivité wifi, si nécessaire, rooter une connection via partage de connection USB avec smartphone pour télécharger le bon drivers réseau.

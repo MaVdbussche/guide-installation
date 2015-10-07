@@ -2,9 +2,26 @@
 
 \usepackage{url}
 
-\newcounter{stepcounter}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{tikz}
+\usetikzlibrary{calc}
 
-\newcommand{\newstep}[1]{\stepcounter{stepcounter}\section{Step \thestepcounter : #1}}
+\newcommand{\boxlabel}{Linux}
+\input{boxes.tex}
+\newmdenv[style=mysquare]{osbox}
+\newenvironment{macos}{\renewcommand{\boxlabel}{Mac OS}\begin{osbox}}{\end{osbox}}
+\newenvironment{macos9}{\renewcommand{\boxlabel}{Mac OS $\leq$ 10.9}\begin{osbox}}{\end{osbox}}
+\newenvironment{macos10}{\renewcommand{\boxlabel}{Mac OS $\geq$ 10.10}\begin{osbox}}{\end{osbox}}
+\newenvironment{linux}{\renewcommand{\boxlabel}{Linux}\begin{osbox}}{\end{osbox}}
+\newenvironment{win}{\renewcommand{\boxlabel}{Windows}\begin{osbox}}{\end{osbox}}
+\newenvironment{winx}{\renewcommand{\boxlabel}{Windows XP}\begin{osbox}}{\end{osbox}}
+\newenvironment{win7l}{\renewcommand{\boxlabel}{Windows $\leq$ 7}\begin{osbox}}{\end{osbox}}
+\newenvironment{win7}{\renewcommand{\boxlabel}{Windows 7/Vista}\begin{osbox}}{\end{osbox}}
+\newenvironment{win8}{\renewcommand{\boxlabel}{Windows $\geq$ 8}\begin{osbox}}{\end{osbox}}
+
+%\newcounter{stepcounter}
+%\newcommand{\newstep}[1]{\stepcounter{stepcounter}\section*{Step \thestepcounter : #1}}
+\newcommand{\newstep}[1]{\stepcounter{section}\section*{Step \thesection : #1}}
 
 \title{Le guide de l'installeur galactique}
 \author{Benoît Legat}
@@ -13,7 +30,7 @@
 
 \maketitle
 
-\section{Prise d'informations}
+\newstep{Prise d'informations}
 \subsection{L'architecture}
 \begin{itemize}
   \item ARM ou x86 ? Sûrement x86.
@@ -21,22 +38,24 @@
 \end{itemize}
 
 Comment savoir ?
-\subsubsection{Sur Windows}
-\paragraph{Windows XP}
-Clique-droit sur ``My computer'' -> ``Properties''. Dans la catégorie ``System'', si il est écrit ``x64 edition'', c'est la version 64 bit, si vous ne voyez pas ``64'' quelque part, ça veut dire que c'est du 32bits.
-\paragraph{Windows Vista/7}
-Même chose que Windows XP, mais il sera explicitement écrit ``32-bit operating system'' ou ``64-bit operating system''.
-\paragraph{Windows 8.1}
-\todo[inline]{TODO}
-\paragraph{Windows 10}
-\todo[inline]{TODO}
-\subsubsection{Sous MAC}
-Ils sont tous 64 bits depuis 2008… Si vous voyez un tout veil ordi, regardez le type de processeur: Cliquez sur la pomme en haut à gauche $\to$ ``About this mac'', si le processeur est un ``Intel Core Solo'' ou ``Intel Core Duo'', c'est du 32-bit.
-\subsubsection{Sur Linux}
+\begin{winx}
+  Clique-droit sur ``My computer'' $\to$ ``Properties''. Dans la catégorie ``System'', si il est écrit ``x64 edition'', c'est la version 64 bit, si vous ne voyez pas ``64'' quelque part, ça veut dire que c'est du 32bits.
+\end{winx}
+\begin{win7}
+  Même chose que Windows XP, mais il sera explicitement écrit ``32-bit operating system'' ou ``64-bit operating system''.
+\end{win7}
+\begin{win8}
+  TODO
+\end{win8}
+\begin{macos}
+  Ils sont tous 64 bits depuis 2008… Si vous voyez un tout veil ordi, regardez le type de processeur: Cliquez sur la pomme en haut à gauche $\to$ ``About this mac'', si le processeur est un ``Intel Core Solo'' ou ``Intel Core Duo'', c'est du 32-bit.
+\end{macos}
+\begin{linux}
 \verb|i386| veut dire 32-bit et \verb|x86_64| veut dire 64-bit.
 \begin{minted}{bash}
 $ uname -a
 \end{minted}
+\end{linux}
 
 \subsection{SecureBoot}
 Aller dans le start menu et lancer powershell en Administrator (clique droit sur l'app et sélectionner ``Run as Administrator'').
@@ -58,28 +77,34 @@ As a rule of thumb, si c'est Windows 8 ou plus c'est GPT.
 
 \subsection{Repartitionnement}
 Quels est la taille de la partition et les partitions présentes ?
-\subsubsection{Sous Windows}
-Aller dans le ``Gestionnaire de Disques''.
-\paragraph{Windows 7 ou moins}
-Clique droit sur ``My computer'' -> ``Manage''.
-\paragraph{Windows 8 ou plus}
-Clique droit sur menu démarrer -> ``Gestionnaire de disque''.
-\subsubsection{Sous MAC}
-\todo[inline]Utiliser l'''Utilitaire de Disque''.
-\subsubsection{Sous Linux}
+\begin{win}
+  Aller dans le ``Gestionnaire de Disques''.
+  \begin{win7l}
+    Clique droit sur ``My computer'' $\to$ ``Manage''.
+  \end{win7l}
+  \begin{win8}
+    Clique droit sur menu démarrer $\to$ ``Gestionnaire de disque''.
+  \end{win8}
+\end{win}
+\begin{macos}
+  Utiliser l'''Utilitaire de Disque''.
+\end{macos}
+
+\begin{linux}
 GParted ou plus rapide:
 \begin{minted}{bash}
 $ lsblk
 \end{minted}
+\end{linux}
 
-\section{Choix à faire avec le client}
+\newstep{Choix à faire avec l'utilisateur}
 
 \subsection{Quelle distribution ?}
 Si ils demandent, ce qu'ils veulent (tant qu'on a l'ISO…), mais par défaut, Ubuntu. Pas besoin de leur faire peur inutilement !
 Eventuellement, juste dire : ``Je vais installer Ubuntu''. Si ils veulent autre chose, ils réagiront. :)
 Si il y a SecureBoot, utilisez Ubuntu 15.04 pour avoir moins d'ennuis, sinon mettez Ubuntu 14.04.3 pour qu'ils aient l'LTS.
 
-\subsection{Quel place est-ce que le client veut donner ?}
+\subsection{Quel place est-ce que l'utilisateur veut donner ?}
 Pour Linux, la taille de \verb|/|: minimum \SI{20}{GB} mais c'est short, \SI{32}{GB} c'est mieux, \SI{42}{GB} pour être tranquille.
 
 Faire une SWAP entre \SI{2}{GB} et \SI{4}{\giga B}.
@@ -91,16 +116,20 @@ Il y a deux cas de figures possibles:
   \item SWAP, \verb|/home| et \verb|/|
 \end{enumerate}
 
-L'avantage de la deuxième c'est que si l'OS crash ou si il le client veut installer une autre distro ou une fresh install au lieu d'une update, en faisant l'install en demandant de ne pas reformatter la partition \verb|/home|, il n'y a que l'OS et les applications qui sont overwritten et les données restes inchangées.
+L'avantage de la deuxième c'est que si l'OS crash ou si l'utilisateur veut installer une autre distro ou une fresh install au lieu d'une update, en faisant l'install en demandant de ne pas reformatter la partition \verb|/home|, il n'y a que l'OS et les applications qui sont overwritten et les données restes inchangées.
 
 Le désavantage de la deuxième c'est qu'il faut choisir la taille du \verb|/home| et \verb|/| maintenant et s'y tenir.
 Seulement, la taille de \verb|/| n'est pas vraiment variable, on met souvent \SI{42}{GB} à \verb|/| et le reste à \verb|/home|.
 
-\newstep{Défragmenter}
+\newstep{Préparer l'hôte}
+\begin{win}
+\paragraph{Déframentation}
 Idéalement ça doit déjà avoir été fait normalement...
 C'est optionnel mais ça permet de plus diminuer la taille de Windows en Step 3.
+\end{win}
 
-\newstep{Désactiver le Fast Boot}
+\begin{win8}
+\paragraph{Désactiver le Fast Boot}
 Pour éviter d'avoir des ennuis avec Windows qui boot pas et surtout, si on veut avoir accès aux paritions de Windows depuis Ubuntu,
 il faut désactiver le Fast Boot depuis Windows.
 Ne pas confondre avec la désactivation du Fast Boot depuis le BIOS !
@@ -118,70 +147,162 @@ Il faut aussi désactiver l'hibernation
 \begin{minted}{bash}
   powercfg.exe -h off
 \end{minted}
+\end{win8}
 
-\newstep{Diminuer la taille de Windows}
-Lancer l'application \verb|compmgmt.msc| sur Windows.
+\begin{macos}
+Télécharger l'EFI pour pouvoir choisir l'OS au démarrage sans l'installer:
+\begin{macos9}
+  Télécharger rEFIt: \url{http://refit.sourceforge.net/}
+\end{macos9}
+\begin{macos10}
+  Télécharger rEFInd: \url{http://sourceforge.net/projects/refind/}
+\end{macos10}
+\end{macos}
 
-En MBR, s'il y a déjà 4 partitions il va falloir en supprimer une..
-Il faut redimensionner Windows \emph{depuis Windows}.
-C'est normal qu'il prenne du temps à calculer l'espace qu'il autorise à réduire et c'est normal que ce soit moins que l'espace libre.
 
-Surtout ne pas virer la partition EFI (si on vire Windows, il faut la créer soit même \url{https://help.ubuntu.com/community/UEFI#Creating_an_EFI_partition}).
+\newstep{Faire de la place}
+\begin{win}
+  Lancer l'application \verb|compmgmt.msc| sur Windows.
 
-Créer un partition Ubuntu avec la taille choisie (la créer sur Windows évite certains problèmes).
+  \begin{win7}
+    En MBR, s'il y a déjà 4 partitions il va falloir en supprimer une..
+  \end{win7}
+  Il faut redimensionner Windows \emph{depuis Windows}.
+  C'est normal qu'il prenne du temps à calculer l'espace qu'il autorise à réduire et c'est normal que ce soit moins que l'espace libre.
 
-\newstep{Rebooter dans l'UEFI}
-Appuyer sur shift quand vous cliquez sur le bouton ``Redémarrer'' puis aller dans Troubleshoot puis UEFI Firmware Settings.
+  \begin{win8}
+    Surtout ne pas virer la partition EFI (si on vire Windows, il faut la créer soit même \url{https://help.ubuntu.com/community/UEFI#Creating_an_EFI_partition}).
+  \end{win8}
 
-\newstep{Chipoter dans l'UEFI}
-\begin{itemize}
-  \item Laisser Secure Boot enabled (si ça marche pas, désactivez le et faite un launchpad bug pour le package ship).
-  \item Disable Fast Boot.
-  \item Le ``Boot Mode'' doit être en ``CSM (Compatibility Support Module) et pas ``UEFI Boot''. (C'est pour que l'UEFI apparaisse comme un BIOS)
-  \item Enable ``UEFI Boot''. Il ne faut surtout pas booter en Legacy !
-\end{itemize}
-Mettre l'USB en priorité dans l'ordre de Boot.
-Si l'USB n'est pas proposé, essayer de rebooter après avoir désactivé le Secure Boot.
+  Créer les partition Ubuntu avec les taille choisie (les créer sur Windows évite certains problèmes).
+\end{win}
+\begin{macos}
+  Libérer autant d'espace disque que néccessaire avec le gestionnaire de disque Apple et le mettre en ``Espace libre'' ou ``Free Space''
+\end{macos}
 
-Il se peut qu'il faille créer la Boot Entry soi-même (e.g. ASUS),
-pour cela, il faut le faire pointer vers \verb|/boot/BOOTx86_64.efi|.
+\newstep{Booter sur la clef}
+\begin{win}
+  Appuyer sur shift quand vous cliquez sur le bouton ``Redémarrer'' puis aller dans Troubleshoot puis UEFI Firmware Settings.
 
-\subsection{Remarque sur le SecureBoot}
-Ce n'est pas requis de désactiver SecureBoot dans le firmware pour Ubuntu 12.04.2 (64 bit versions) et plus récente
-si l'ordi a la ``recommended Microsoft Third-Party Marketplace keys'' dans son firmware.
-S'il y a un problème, il faut déclarer un launchpad bug dans le shim package.
-Cependant, on doit dans tous les cas désactiver le SecureBoot après l'étape Boot Repair.
+  \begin{itemize}
+    \item Laisser Secure Boot enabled (si ça marche pas, désactivez le et faite un launchpad bug pour le package ship).
+    \item Disable Fast Boot.
+    \item Le ``Boot Mode'' doit être en ``CSM (Compatibility Support Module) et pas ``UEFI Boot''. (C'est pour que l'UEFI apparaisse comme un BIOS)
+    \item Enable ``UEFI Boot''. Il ne faut surtout pas booter en Legacy !
+  \end{itemize}
+  Mettre l'USB en priorité dans l'ordre de Boot.
+  Si l'USB n'est pas proposé, essayer de rebooter après avoir désactivé le Secure Boot.
 
-\newstep{Rebooter}
-Maintenant, on reboot et ça devrait booter sur la clef (si ça ne marche pas, vous être autorisé à pleurer).
+  Il se peut qu'il faille créer la Boot Entry soi-même (e.g. ASUS),
+  pour cela, il faut le faire pointer vers \verb|/boot/BOOTx86_64.efi|.
 
-Choisir ``Try ...'' au lieu de ``Installer directemen't' pour avoir GParted.
+  \paragraph{Remarque sur le SecureBoot}
+  Ce n'est pas requis de désactiver SecureBoot dans le firmware pour Ubuntu 12.04.2 (64 bit versions) et plus récente
+  si l'ordi a la ``recommended Microsoft Third-Party Marketplace keys'' dans son firmware.
+  S'il y a un problème, il faut déclarer un launchpad bug dans le shim package.
+  Cependant, on doit dans tous les cas désactiver le SecureBoot après l'étape Boot Repair.
+
+  Maintenant, on reboot et ça devrait booter sur la clef.
+\end{win}
+\begin{macos}
+  Redémarrer normalement mais appuyer sur ALT lorsque l'écran s'allume pour choisir la clé bootable
+\end{macos}
+
+Choisir ``Try ...'' au lieu de ``Installer directement'' pour avoir GParted.
+
+\begin{win8}
+  Checker qu'on a bien booté en EFI avec
+  \begin{minted}{bash}
+    $ [ -d /sys/firmware/efi ] && echo "EFI mode" || echo "Legacy mode"
+  \end{minted}
+\end{win8}
 
 \newstep{Créer les partitions}
-Créer les partitions comme choisi au préalable avec le client.
-Si c'est Windows 8 ou plus, faites aussi une Partition EFI de \si{250}{MB}, pour le format choisissez ``EFI boot partition''.
-Si cette option ne s'affiche pas, vérifiez que vous avez booté votre clef USB avec le UEFI enabled et si ça marche toujours pas, vérifiez que votre clef USB a été faite avec \verb|dd| (voir \url{http://askubuntu.com/questions/562982/ubuntu-14-04-single-boot-with-uefi-mode-enabled/563004#563004}).
-\todo[inline]{Boot partition?}
+Créer les partitions comme choisi au préalable.
+\begin{win8}
+  Faites aussi une Partition EFI de \si{250}{MB}, pour le format choisissez ``EFI boot partition''.
+  Si cette option ne s'affiche pas, vérifiez que vous avez booté votre clef USB avec le UEFI enabled et si ça marche toujours pas, vérifiez que votre clef USB a été faite avec \verb|dd| (voir \url{http://askubuntu.com/questions/562982/ubuntu-14-04-single-boot-with-uefi-mode-enabled/563004#563004}).
+\end{win8}
+\begin{macos}
+  Laissez un espace libre d'au moins \si{10}{MB} où on mettre la partition BIOS-grub plus tard.
+\end{macos}
 
 \newstep{Se connecter}
 Wifi c'est bien, Ethernet, c'est mieux !
 Brancher aussi le PC, si ce n'est pas encore fait.
 
 \newstep{Lancer l'installation}
-Double cliquer sur les partitions ext4 créées pour qu'elles soient utilisées.
-Ne pas reformater la partition \verb|/home| s'il y a des données (e.g. reinstall).
-Pour l'installation du Boot Loader, choisissez \verb|/dev/sda| pour Windows 7 ou moins (normalement choisi par défaut)
-et la partition de type ``EFI'' sinon.
+\begin{macos}
+  Le type de clavier pour les macbooks est : French Macintosh
+\end{macos}
 
-\newstep{Rebooter}
-Checkez si Windows marche.
-Checkez si Linux marche:
-Checker qu'il est bien en EFI avec
-\begin{minted}{bash}
-$ [ -d /sys/firmware/efi ] && echo "Installed in EFI mode" || echo "Installed in Legacy mode"
-\end{minted}
+Choisir ``Installation personnalisée'' ou ``Autre chose''
+\begin{macos}
+  (!!! surtout pas une autre option !!!)
+\end{macos}
+
+Choisir la partition ``ext4'' que l'on a créer pour installer linux avec comme point de montage ``\verb|/|'' et la formater de préférence.
+Si on en a fait une, choisir la partition \verb|/home| avec le point de montage \verb|/home| et la formater (sauf s'il y a des données dessus (par exemple si c'est une c'est une réinstallation de Linux))
+
+\begin{macos}
+  Créer une partion de type BIOS ou BIOS-grub de minimum 1Mb
+\end{macos}
+
+Pour l'installation du Boot Loader, choisissez:
+\begin{win7l}
+  \verb|/dev/sda| pour Windows 7 ou moins (normalement choisi par défaut)
+\end{win7l}
+\begin{win8}
+  la partition de type ``EFI'' et surtout \emph{pas} la racine du disque dur \verb|/dev/sda|.
+\end{win8}
+\begin{macos}
+  la partition sur laquelle on utilise linux (en général ``\verb|/dev/sda4|'') et surtout \emph{pas} la racine du disque dur \verb|/dev/sda|.
+\end{macos}
+
+\newstep{Checker si Linux marche}
+Terminer l'installation et redémarrer en retirant la clef USB quand c'est demandé.
+\begin{win}
+  Normalement le grub s'affiche, Linux et Windows devraient être affichés.
+\end{win}
+\begin{macos}
+  Lorsque l'écran s'allume, appuyer sur ALT pour afficher les différents partitions bootables, normalement, MacOS (Macintosh HD) et Linux sont présent.
+\end{macos}
+Choisir Linux et checker s'il boot correctement.
+\begin{win8}
+  Checker que Linux est bien en EFI avec
+  \begin{minted}{bash}
+    $ [ -d /sys/firmware/efi ] && echo ``EFI mode'' || echo ``Legacy mode''
+  \end{minted}
+\end{win8}
+
+\newstep{Checker si l'hôte marche}
+Redémarrer sur l'hôte.
+\begin{macos}
+  À nouveau il faut appuyer sur ALT.
+
+  Une fois Mac OS booté:
+  Installer l'EFI pour pouvoir choisir l'OS au démarrage
+  \begin{macos9}
+    Installer rEFIt en double cliquant dessus.
+    Redémarrer pour vérifier la présence de rEFIt.
+  \end{macos9}
+
+  \begin{macos10}
+    Décompresser le dossier rEFInd dans un répertoire
+    Avec la console, se rendre dans le dossier décompresser
+    Entrer la commande:
+    \begin{minted}{bash}
+      sudo ./install.sh --alldrivers
+    \end{minted}
+    Taper le mot de passe
+    Redémarrer pour vérifié la présence de rEFInd
+  \end{macos10}
+\end{macos}
+
+\newstep{Post-install}
+Retourner sur Linux et checker:
 \begin{itemize}
-  \item Wifi
+  \item Wifi (si nécessaire, rooter une connection via partage de connection USB avec smartphone pour télécharger le bon drivers réseau)
   \item Son
   \item Luminosité
   \item ...
@@ -231,7 +352,7 @@ $ sudo /usr/share/doc/libdvdread4/install-css.sh
 
 This is a common problem and if you do not get a GRUB menu , re-installing or repairing grub will NOT HELP
 
-Notice the "UEFI Boot Option Priority" or "Boot Option Menu" . Usually Windows is the default and Ubuntu (or as in the second picture elementary OS) will be an option.
+Notice the ``UEFI Boot Option Priority'' or ``Boot Option Menu'' . Usually Windows is the default and Ubuntu (or as in the second picture elementary OS) will be an option.
 
 Once you select Ubuntu on the UEFI boot menu you will then get a grub menu. You should be able to boot either Ubuntu or Windows from the grub menu.
 

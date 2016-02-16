@@ -6,6 +6,28 @@
 \usepackage{tikz}
 \usetikzlibrary{calc}
 
+% Mac OS 9
+%\def\ismacos{}
+%\def\ismacosn{}
+% Mac OS 10
+%\def\ismacos{}
+%\def\ismacosd{}
+% Linux OS 10
+%\def\islinux{}
+% Windows XP
+%\def\iswin{}
+%\def\iswinx{}
+%\def\iswinsl{}
+% Windows 7
+%\def\iswin{}
+%\def\iswinsl{}
+% Windows 8
+\def\iswin{}
+\def\iswine{}
+
+%\def\allinone{}
+
+\ifdef{\allinone}{
 \newcommand{\boxlabel}{Linux}
 \input{boxes.tex}
 \newmdenv[style=mysquare]{osbox}
@@ -18,6 +40,53 @@
 \newenvironment{win7l}{\renewcommand{\boxlabel}{Windows $\leq$ 7}\begin{osbox}}{\end{osbox}}
 \newenvironment{win7}{\renewcommand{\boxlabel}{Windows 7/Vista}\begin{osbox}}{\end{osbox}}
 \newenvironment{win8}{\renewcommand{\boxlabel}{Windows $\geq$ 8}\begin{osbox}}{\end{osbox}}
+}{
+\ifdef{\ismacos}{
+\newenvironment{macos}{}{}
+}{
+\newenvironment{macos}{\expandafter\comment}{\expandafter\endcomment}
+}
+\ifdef{\ismacosn}{
+\newenvironment{macos9}{}{}
+}{
+\newenvironment{macos9}{\expandafter\comment}{\expandafter\endcomment}
+}
+\ifdef{\ismacosd}{
+\newenvironment{macos10}{}{}
+}{
+\newenvironment{macos10}{\expandafter\comment}{\expandafter\endcomment}
+}
+\ifdef{\islinux}{
+\newenvironment{linux}{}{}
+}{
+\newenvironment{linux}{\expandafter\comment}{\expandafter\endcomment}
+}
+\ifdef{\iswin}{
+\newenvironment{win}{}{}
+}{
+\newenvironment{win}{\expandafter\comment}{\expandafter\endcomment}
+}
+\ifdef{\iswinx}{
+\newenvironment{winx}{}{}
+}{
+\newenvironment{winx}{\expandafter\comment}{\expandafter\endcomment}
+}
+\ifdef{\iswins}{
+\newenvironment{win7}{}{}
+}{
+\newenvironment{win7}{\expandafter\comment}{\expandafter\endcomment}
+}
+\ifdef{\iswinsl}{
+\newenvironment{win7l}{}{}
+}{
+\newenvironment{win7l}{\expandafter\comment}{\expandafter\endcomment}
+}
+\ifdef{\iswine}{
+\newenvironment{win8}{}{}
+}{
+\newenvironment{win8}{\expandafter\comment}{\expandafter\endcomment}
+}
+}
 
 %\newcounter{stepcounter}
 %\newcommand{\newstep}[1]{\stepcounter{stepcounter}\section*{Step \thestepcounter : #1}}

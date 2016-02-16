@@ -23,6 +23,8 @@
 \RequirePackage{subcaption}
 \RequirePackage{multirow}
 \RequirePackage{todonotes}
+\RequirePackage{etoolbox}
+\RequirePackage{verbatim}
 
 % Math symbols
 \RequirePackage{amsmath}

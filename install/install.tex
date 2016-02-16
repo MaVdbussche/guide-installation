@@ -1,4 +1,4 @@
-\documentclass{../guide}
+\documentclass[fr]{../guide}
 
 \usepackage{url}
 
@@ -431,8 +431,11 @@ bcdedit /set {bootmgr} path \EFI\ubuntu\grubx64.efi
 \end{minted}
 This will configure the Windows Boot Manager to take into consideration the GRUB Boot Manager. This could still happen even after running the Boot Repair from within Ubuntu. So making sure that Windows reads the Ubuntu EFI partition, in case you are using an EFI boot system instead of the old BIOS will solve it.
 
-\subsection{REPAIRING THE BOOT}
-After finishing the installation, if you happen to have Windows 8 disabled from booting and it only boots to Ubuntu, do not worry. In Ubuntu after it boots, install Boot-Repair in Ubuntu by opening a Terminal and typing the following:
+\subsection{Repairing the Boot}
+\IfLanguageName{english}
+{After finishing the installation, if you happen to have Windows 8 disabled from booting and it only boots to Ubuntu, do not worry. In Ubuntu after it boots, install Boot-Repair in Ubuntu by opening a Terminal and typing the following:}
+{Une fois l'installation finie, si Windows 8 ne boot pas et il n'y a que Ubuntu qui boot, ne vous inquiétez pas.
+Depuis Ubuntu, installez Boot-Repair en ouvrait un terminal et en tapant ce qui suit:}
 
 \begin{minted}{bash}
 sudo add-apt-repository ppa:yannubuntu/boot-repair
@@ -440,8 +443,16 @@ sudo apt-get update
 sudo apt-get install boot-repair
 boot-repair
 \end{minted}
-Boot Repair will mention that we have some GRUB error, that we have an EFI system and that Ubuntu rocks. Since Ubuntu rocks (It does not work if Ubuntu does not rock!), just click on Apply so boot repair fixes everything. Now reboot and you should see Windows 8 and Ubuntu side by side.
 
-For cases with rare booting problems, partitioning or using old hard drives on newer motherboard, your solution might be checking out FixParts (\url{http://www.rodsbooks.com/fixparts/}) which solves misaligned partitions and other partitioned type problems.
+\IfLanguageName{english}
+{Boot Repair will mention that we have some GRUB error, that we have an EFI system and that Ubuntu rocks. Since Ubuntu rocks (It does not work if Ubuntu does not rock!), just click on Apply so boot repair fixes everything. Now reboot and you should see Windows 8 and Ubuntu side by side.}
+{Boot Repair mentionnera que vous avec des erreur GRUB, que vous avez un systèmes EFI et que Ubuntu gère.
+Comme Ubuntu gère (Ça ne marche pas si Ubuntu ne gère pas!), cliquez sur ``Apply'' pour que boot repair répare tout.
+Maintenant, rebootez et vous devriez voir Windows 8 et Ubuntu côte à côte.}
+
+\IfLanguageName{english}
+{For cases with rare booting problems, partitioning or using old hard drives on newer motherboard, your solution might be checking out FixParts (\url{http://www.rodsbooks.com/fixparts/}) which solves misaligned partitions and other partitioned type problems.}
+{En cas de rare problème de boot, partitionnement ou utilisation de vieux disques durs sur de nouvelles cartes mères,
+la solution serait d'utiliser FixParts (\url{http://www.rodsbooks.com/fixparts/}) qui résoud les problèmes de partitions mal alignés ou autre problèmes de partitionnement.}
 
 \end{document}

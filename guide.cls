@@ -6,6 +6,9 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{guide}[2015/09/27 guide class]
 
+\DeclareOption{en}{\PassOptionsToPackage{english}{babel}}
+\DeclareOption{fr}{\PassOptionsToPackage{frenchb}{babel}}
+
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 
 \ProcessOptions\relax
@@ -13,7 +16,7 @@
 \LoadClass[10pt,a4paper]{article}
 
 \RequirePackage[utf8x]{inputenc}
-\RequirePackage[frenchb]{babel}
+\RequirePackage{babel}
 \RequirePackage[T1]{fontenc}
 \RequirePackage{lmodern}
 \RequirePackage{fullpage}
@@ -25,6 +28,7 @@
 \RequirePackage{todonotes}
 \RequirePackage{etoolbox}
 \RequirePackage{verbatim}
+\RequirePackage{iflang}
 
 % Math symbols
 \RequirePackage{amsmath}
